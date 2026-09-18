@@ -3,10 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Job Application Tracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>HELLO UNIVERSITIES
-    </h1>
+    <header>
+        <h1>Job Application Tracker</h1>
+    </header>
+    <main>
+        <section id="dashboard">
+            <div>Total: <span id="total">0</span></div>
+            <div>Applied: <span id="applied">0</span></div>
+            <div>Interviews: <span id="interviews">0</span></div>
+            <div>Offers: <span id="offers">0</span></div>
+        </section>
+        <section id="controls">
+            <button id="addApplicationBtn">Add Application</button>
+            <input type="text" id="search" placeholder="Search by company, title, or location">
+        </section>
+        <section id="applications">
+            <p id="emptyState">No applications yet. Add your first application.</p>
+            <table id="applicationsTable" class="hidden">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Job Title</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Date Applied</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+    <div id="formModal" class="hidden">
+        <form id="applicationForm">
+            <h2 id="formTitle">Add Application</h2>
+            <label>
+                Company:
+                <input type="text" id="company" required>
+            </label>
+            <label>
+                Job Title:
+                <input type="text" id="jobTitle" required>
+            </label>
+            <label>
+                Location:
+                <input type="text" id="location">
+            </label>
+            <label>
+                Date Applied:
+                <input type="date" id="dateApplied" required>
+            </label>
+            <label>
+                Status:
+                <select id="status">
+                    <option value="Applied">Applied</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </label>
+            <label>
+                Job URL:
+                <input type="text" id="jobUrl">
+            </label>
+            <label>
+                Notes:
+                <textarea id="notes"></textarea>
+            </label>
+            <div class="formActions">
+                <button type="submit" id="saveBtn">Save</button>
+                <button type="button" id="cancelBtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
