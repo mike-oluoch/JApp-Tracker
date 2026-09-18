@@ -91,10 +91,9 @@ function saveApplication(event) {
     const location = document.getElementById("location").value;
     const dateApplied = document.getElementById("dateApplied").value;
     const status = document.getElementById("status").value;
-    const jobUrl = document.getElementById("jobUrl").value;
     const notes = document.getElementById("notes").value;
 
-    const application = { company, jobTitle, location, dateApplied, status, jobUrl, notes };
+    const application = { company, jobTitle, location, dateApplied, status, notes };
 
     if (editingIndex !== null) {
         applications[editingIndex] = application;
@@ -114,7 +113,6 @@ function editApplication(index) {
     document.getElementById("location").value = app.location;
     document.getElementById("dateApplied").value = app.dateApplied;
     document.getElementById("status").value = app.status;
-    document.getElementById("jobUrl").value = app.jobUrl;
     document.getElementById("notes").value = app.notes;
 
     editingIndex = index;

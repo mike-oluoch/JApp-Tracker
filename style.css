@@ -62,9 +62,26 @@ table th {
 
 #applicationForm {
     background: #fff;
-    padding: 1rem;
+    padding: 10px;
     border-radius: 5px;
     width: 300px;
+}
+
+#applicationForm label {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+#applicationForm input, #applicationForm select, #applicationForm textarea {
+    width: 80%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#applicationForm textarea {
+    resize: vertical;
 }
 
 .formActions {
