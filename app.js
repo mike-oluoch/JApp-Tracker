@@ -4,18 +4,26 @@ let editingIndex = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     const addApplicationBtn = document.getElementById("addApplicationBtn");
-    const formModal = document.getElementById("formModal");
     const applicationForm = document.getElementById("applicationForm");
     const cancelBtn = document.getElementById("cancelBtn");
     const searchInput = document.getElementById("search");
 
-    addApplicationBtn.addEventListener("click", openForm);
+    addApplicationBtn.addEventListener("click", () => openForm(false));
     cancelBtn.addEventListener("click", closeForm);
     applicationForm.addEventListener("submit", saveApplication);
     searchInput.addEventListener("input", searchApplications);
 
+    closeForm();
     loadApplications();
 });
+
+function setFormMode(isEditing) {
+    const formTitle = document.getElementById("formTitle");
+    const saveBtn = document.getElementById("saveBtn");
+
+    formTitle.textContent = isEditing ? "Edit Application" : "Add Application";
+    saveBtn.textContent = isEditing ? "Update" : "Save";
+}
 
 function loadApplications() {
     renderApplications();
@@ -49,11 +57,11 @@ function renderApplications(filteredApps = applications) {
             <td>${app.company}</td>
             <td>${app.jobTitle}</td>
             <td>${app.location || "N/A"}</td>
-            <td class="${app.status.toLowerCase()}">${app.status}</td>
+            <td><span class="status-badge ${app.status.toLowerCase()}">${app.status}</span></td>
             <td>${app.dateApplied}</td>
-            <td>
-                <button onclick="editApplication(${index})">Edit</button>
-                <button onclick="deleteApplication(${index})">Delete</button>
+            <td class="action-cell">
+                <button class="secondary" onclick="editApplication(${index})">Edit</button>
+                <button class="danger" onclick="deleteApplication(${index})">Delete</button>
             </td>
         `;
 
@@ -73,25 +81,38 @@ function updateStats() {
     document.getElementById("offers").textContent = offers;
 }
 
-function openForm() {
-    document.getElementById("formModal").classList.remove("hidden");
-    document.getElementById("applicationForm").reset();
-    editingIndex = null;
+function openForm(isEditing = false) {
+    const modal = document.getElementById("formModal");
+    const form = document.getElementById("applicationForm");
+
+    form.reset();
+    setFormMode(isEditing);
+    modal.classList.remove("hidden");
 }
 
 function closeForm() {
-    document.getElementById("formModal").classList.add("hidden");
+    const modal = document.getElementById("formModal");
+    const form = document.getElementById("applicationForm");
+
+    form.reset();
+    modal.classList.add("hidden");
+    editingIndex = null;
+    setFormMode(false);
 }
 
 function saveApplication(event) {
     event.preventDefault();
 
-    const company = document.getElementById("company").value;
-    const jobTitle = document.getElementById("jobTitle").value;
-    const location = document.getElementById("location").value;
+    const company = document.getElementById("company").value.trim();
+    const jobTitle = document.getElementById("jobTitle").value.trim();
+    const location = document.getElementById("location").value.trim();
     const dateApplied = document.getElementById("dateApplied").value;
     const status = document.getElementById("status").value;
-    const notes = document.getElementById("notes").value;
+    const notes = document.getElementById("notes").value.trim();
+
+    if (!company || !jobTitle || !dateApplied) {
+        return;
+    }
 
     const application = { company, jobTitle, location, dateApplied, status, notes };
 
@@ -108,6 +129,7 @@ function saveApplication(event) {
 
 function editApplication(index) {
     const app = applications[index];
+
     document.getElementById("company").value = app.company;
     document.getElementById("jobTitle").value = app.jobTitle;
     document.getElementById("location").value = app.location;
@@ -116,7 +138,7 @@ function editApplication(index) {
     document.getElementById("notes").value = app.notes;
 
     editingIndex = index;
-    openForm();
+    openForm(true);
 }
 
 function deleteApplication(index) {
